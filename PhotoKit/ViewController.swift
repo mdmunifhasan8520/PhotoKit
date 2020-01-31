@@ -16,17 +16,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var photosCollectionView: UICollectionView!
     
     var imageArray = [UIImage]()
+    var albumTitle = [String]()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         grabPhotos()
-        
-
+        grabAlbumTitle()
+        print(albumTitle)
     }
     
-
+    
 
     func grabPhotos() {
         let imgManager = PHImageManager.default()
@@ -47,15 +48,44 @@ class ViewController: UIViewController {
                         image,error in
                         self.imageArray.append(image!)
                     })
-                    
                 }
             } else {
                 print("You got no photo")
                 self.photosCollectionView.reloadData()
             }
-           
+        }
+    }
+    //get album title
+    func grabAlbumTitle() {
+        let albumList = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumUserLibrary, options: nil)
+        
+        // you can access the number of albums with
+        print(albumList.count)
+        for i in 0..<albumList.count {
+            let album = albumList.object(at: i)
+            // eg. get the name of the album
+            albumTitle.append(album.localizedTitle!)
+            print(album.localizedTitle!)
+            
+            }
+        // get the assets in a collection
+        func getAssets(fromCollection collection: PHAssetCollection) -> PHFetchResult<PHAsset> {
+            let photosOptions = PHFetchOptions()
+            photosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+            photosOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
+            
+            return PHAsset.fetchAssets(in: collection, options: photosOptions)
         }
         
+        // eg.
+        albumList.enumerateObjects { (coll, _, _) in
+            let result = getAssets(fromCollection: coll)
+            print("\(coll.localizedTitle): \(result.count)")
+        }
+        
+        // Now you can:
+        // access the count of assets in the PHFetchResult
+        //print(result.count)
     }
     
 
