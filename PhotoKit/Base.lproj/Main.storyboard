@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="r3i-He-uGL">
-                                <rect key="frame" x="16" y="142" width="343" height="456"/>
+                                <rect key="frame" x="0.0" y="142" width="375" height="456"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="spI-RZ-egI">
@@ -57,11 +57,55 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="haI-aD-lqF"/>
                                 </connections>
                             </collectionView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UxN-P8-Zhy">
+                                <rect key="frame" x="0.0" y="598" width="375" height="69"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.058823529409999999" green="0.54117647059999996" blue="0.43137254899999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zMT-mv-1Bx">
+                                    <size key="itemSize" width="120" height="40"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlbumNameCell" id="hE5-HX-Qpj" customClass="AlbumNameListCollectionViewCell" customModule="PhotoKit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="14.5" width="120" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="40"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kww-J7-Gl5">
+                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="40"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" red="0.002462633885" green="0.5858041048" blue="0.99934297800000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="Kww-J7-Gl5" firstAttribute="height" secondItem="hE5-HX-Qpj" secondAttribute="height" id="3SY-cH-LXa"/>
+                                            <constraint firstItem="Kww-J7-Gl5" firstAttribute="centerX" secondItem="hE5-HX-Qpj" secondAttribute="centerX" id="4Cu-zg-BSj"/>
+                                            <constraint firstItem="Kww-J7-Gl5" firstAttribute="centerY" secondItem="hE5-HX-Qpj" secondAttribute="centerY" id="L4h-GX-hQ8"/>
+                                            <constraint firstItem="Kww-J7-Gl5" firstAttribute="width" secondItem="hE5-HX-Qpj" secondAttribute="width" id="XEJ-ck-Rht"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="albumNameLabel" destination="Kww-J7-Gl5" id="3op-uk-T87"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="VdW-k9-EJc"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Wd4-mD-Cyu"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="albumNameListCollectionView" destination="UxN-P8-Zhy" id="Psm-zN-sIS"/>
                         <outlet property="photosCollectionView" destination="r3i-He-uGL" id="Fgm-8e-lYY"/>
                     </connections>
                 </viewController>

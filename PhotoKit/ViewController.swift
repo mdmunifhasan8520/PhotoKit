@@ -14,9 +14,13 @@ class ViewController: UIViewController {
     
 
     @IBOutlet weak var photosCollectionView: UICollectionView!
+    @IBOutlet weak var albumNameListCollectionView: UICollectionView!
+    
     
     var imageArray = [UIImage]()
     var albumTitle = [String]()
+    
+    var newimageArray = [UIImage]()
 
     
     override func viewDidLoad() {
@@ -57,8 +61,7 @@ class ViewController: UIViewController {
     }
     //get album title
     func grabAlbumTitle() {
-        let albumList = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumUserLibrary, options: nil)
-        
+        let albumList = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
         // you can access the number of albums with
         print(albumList.count)
         for i in 0..<albumList.count {
@@ -66,7 +69,6 @@ class ViewController: UIViewController {
             // eg. get the name of the album
             albumTitle.append(album.localizedTitle!)
             print(album.localizedTitle!)
-            
             }
         // get the assets in a collection
         func getAssets(fromCollection collection: PHAssetCollection) -> PHFetchResult<PHAsset> {
@@ -76,16 +78,24 @@ class ViewController: UIViewController {
             
             return PHAsset.fetchAssets(in: collection, options: photosOptions)
         }
-        
         // eg.
+        //let result = PHFetchResult<AnyObject>?.self
+         var fetchResult: PHFetchResult<PHAsset>!
         albumList.enumerateObjects { (coll, _, _) in
-            let result = getAssets(fromCollection: coll)
-            print("\(coll.localizedTitle): \(result.count)")
+            fetchResult = getAssets(fromCollection: coll)
+            print("\(coll.localizedTitle): \(fetchResult.count)")
+            let asset = fetchResult.object(at: 0)
+            print("asset is \(asset)")
         }
         
         // Now you can:
         // access the count of assets in the PHFetchResult
-        //print(result.count)
+        print("Z\(fetchResult.count)")
+        // get the "real" image
+//        PHCachingImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil) { (image, _) in
+//            self.newimageArray.append(image!)
+//            }
+            // do something with the image
     }
     
 
@@ -93,17 +103,25 @@ class ViewController: UIViewController {
 //photos collection view delegate and data source
 extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageArray.count
+        if collectionView == self.photosCollectionView {
+            return imageArray.count
+        } else  {
+            return albumTitle.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCollectionViewCell
-       // cell.backgroundColor = UIColor.green
-        cell.photosImageView.image = imageArray[indexPath.item]
-
-        return cell
+        if collectionView == self.photosCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCollectionViewCell
+            cell.photosImageView.image = imageArray[indexPath.item]
+            
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AlbumNameCell", for: indexPath) as! AlbumNameListCollectionViewCell
+            cell.albumNameLabel.text = albumTitle[indexPath.item]
+         
+            return cell
+        }
     }
-    
-    
 }
 
